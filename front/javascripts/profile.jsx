@@ -61,7 +61,6 @@ class Profile extends Component {
   }
 
   onPlusRecommend(property_id) {
-    console.log(property_id);
     $.ajax({
       url: `${this.current_url}/properties/${property_id}/recommends`,
       type: 'POST'

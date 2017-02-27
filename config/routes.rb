@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
+  resources :skills, only: [:show]
   resource :current_user, only: [:show]
-  resource :recommend, only: [:destroy]
   resources :users, only: [:show] do
     scope module: 'users' do
       resources :properties, only: [:index, :create, :destroy] do

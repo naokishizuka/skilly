@@ -42,10 +42,12 @@ export default class Property extends Component {
       deleteBtn = <span onClick={this.handleDelete}>削除</span>
     }
 
+    const skill_url = `/skills/${this.props.property.skill_id}`
+
     return (
       <div>
         <span>{this.props.property.recommends_count}</span>
-        <span>{this.props.property.skill.name}</span>
+        <a href={skill_url}>{this.props.property.skill.name}</a>
         {deleteBtn}
         {recommendBtn}
       </div>

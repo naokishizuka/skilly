@@ -20187,6 +20187,8 @@ var Property = function (_Component) {
         );
       }
 
+      var skill_url = '/skills/' + this.props.property.skill_id;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -20196,8 +20198,8 @@ var Property = function (_Component) {
           this.props.property.recommends_count
         ),
         _react2.default.createElement(
-          'span',
-          null,
+          'a',
+          { href: skill_url },
           this.props.property.skill.name
         ),
         deleteBtn,
@@ -32510,7 +32512,6 @@ var Profile = function (_Component) {
   }, {
     key: 'onPlusRecommend',
     value: function onPlusRecommend(property_id) {
-      console.log(property_id);
       _jquery2.default.ajax({
         url: this.current_url + '/properties/' + property_id + '/recommends',
         type: 'POST'
