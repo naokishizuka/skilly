@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    application: './javascripts/application.jsx',
+    profile: './javascripts/profile.jsx',
   },
 
   output: {
