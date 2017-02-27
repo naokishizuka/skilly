@@ -20,8 +20,11 @@ class Profile extends Component {
       }
     })
 
+    this.current_url = location.href;
     this.onSubmitSkill = this.onSubmitSkill.bind(this);
     this.onDeleteProperty = this.onDeleteProperty.bind(this);
+    this.onPlusRecommend = this.onPlusRecommend.bind(this);
+    this.onMinusRecommend = this.onMinusRecommend.bind(this);
   }
 
   componentDidMount() {
@@ -29,9 +32,8 @@ class Profile extends Component {
   }
 
   loadPropertiesFromServer() {
-    const current_url = location.href;
     $.ajax({
-      url: `${current_url}/properties`,
+      url: `${this.current_url}/properties`,
       dataType: 'json'
     })
     .done((data) => {
@@ -42,22 +44,35 @@ class Profile extends Component {
   }
 
   onSubmitSkill(name){
-    const current_url = location.href;
     $.ajax({
-      url: `${current_url}/properties`,
+      url: `${this.current_url}/properties`,
       type: 'POST',
-      dataType: 'json',
       data: { name: name }
     })
     this.loadPropertiesFromServer();
   }
 
   onDeleteProperty(id){
-    const current_url = location.href;
     $.ajax({
-      url: `${current_url}/properties/${id}`,
-      type: 'DELETE',
-      dataType: 'json'
+      url: `${this.current_url}/properties/${id}`,
+      type: 'DELETE'
+    })
+    this.loadPropertiesFromServer();
+  }
+
+  onPlusRecommend(property_id) {
+    console.log(property_id);
+    $.ajax({
+      url: `${this.current_url}/properties/${property_id}/recommends`,
+      type: 'POST'
+    })
+    this.loadPropertiesFromServer();
+  }
+
+  onMinusRecommend(property_id) {
+    $.ajax({
+      url: `${this.current_url}/properties/${property_id}/recommend`,
+      type: 'DELETE'
     })
     this.loadPropertiesFromServer();
   }
@@ -66,7 +81,7 @@ class Profile extends Component {
     return(
       <div>
         <Form onSubmitSkill={this.onSubmitSkill} />
-        <PropertyList properties={this.state.properties} onDeleteProperty={this.onDeleteProperty}/>
+        <PropertyList properties={this.state.properties} onDeleteProperty={this.onDeleteProperty} currentUser={this.state.currentUser} onPlusRecommend={this.onPlusRecommend} onMinusRecommend={this.onMinusRecommend} />
       </div>
     )
   }

@@ -20047,7 +20047,7 @@ var PropertyList = function (_Component) {
         return _react2.default.createElement(
           'li',
           { key: property.id },
-          _react2.default.createElement(_property2.default, { property: property, onDeleteProperty: _this2.props.onDeleteProperty })
+          _react2.default.createElement(_property2.default, { property: property, onDeleteProperty: _this2.props.onDeleteProperty, currentUser: _this2.props.currentUser, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend })
         );
       });
       return _react2.default.createElement(
@@ -20098,6 +20098,10 @@ var _react = __webpack_require__(25);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _recommender = __webpack_require__(187);
+
+var _recommender2 = _interopRequireDefault(_recommender);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20114,18 +20118,73 @@ var Property = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Property.__proto__ || Object.getPrototypeOf(Property)).call(this));
 
-    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleDelete = _this.handleDelete.bind(_this);
+    _this.handlePlus = _this.handlePlus.bind(_this);
+    _this.handleMinus = _this.handleMinus.bind(_this);
     return _this;
   }
 
   _createClass(Property, [{
-    key: 'handleClick',
-    value: function handleClick() {
+    key: 'handleDelete',
+    value: function handleDelete() {
       this.props.onDeleteProperty(this.props.property.id);
+    }
+  }, {
+    key: 'handlePlus',
+    value: function handlePlus() {
+      this.props.onPlusRecommend(this.props.property.id);
+    }
+  }, {
+    key: 'handleMinus',
+    value: function handleMinus() {
+      this.props.onMinusRecommend(this.props.property.id);
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var recommenders = this.props.property.recommenders.map(function (recommender) {
+        return _react2.default.createElement(
+          'li',
+          { key: recommender.id },
+          _react2.default.createElement(_recommender2.default, { recommender: recommender })
+        );
+      });
+
+      var recommendBtn = null;
+      if (!this.props.currentUser) {
+        recommendBtn = null;
+      } else {
+        var recommender = this.props.property.recommenders.filter(function (recommender) {
+          return recommender.id == _this2.props.currentUser.id;
+        });
+        if (recommenders.length == 0) {
+          recommendBtn = _react2.default.createElement(
+            'span',
+            { onClick: this.handlePlus },
+            '+1'
+          );
+        } else {
+          recommendBtn = _react2.default.createElement(
+            'span',
+            { onClick: this.handleMinus },
+            '-1'
+          );
+        }
+      }
+
+      var deleteBtn = null;
+      if (!this.props.currentUser) {
+        deleteBtn = null;
+      } else if (this.props.property.user.id == this.props.currentUser.id) {
+        deleteBtn = _react2.default.createElement(
+          'span',
+          { onClick: this.handleDelete },
+          '\u524A\u9664'
+        );
+      }
+
       return _react2.default.createElement(
         'div',
         null,
@@ -20134,10 +20193,12 @@ var Property = function (_Component) {
           null,
           this.props.property.skill.name
         ),
+        deleteBtn,
+        recommendBtn,
         _react2.default.createElement(
-          'span',
-          { onClick: this.handleClick },
-          '\u524A\u9664'
+          'ul',
+          null,
+          recommenders
         )
       );
     }
@@ -32398,8 +32459,11 @@ var Profile = function (_Component) {
       };
     });
 
+    _this.current_url = location.href;
     _this.onSubmitSkill = _this.onSubmitSkill.bind(_this);
     _this.onDeleteProperty = _this.onDeleteProperty.bind(_this);
+    _this.onPlusRecommend = _this.onPlusRecommend.bind(_this);
+    _this.onMinusRecommend = _this.onMinusRecommend.bind(_this);
     return _this;
   }
 
@@ -32413,9 +32477,8 @@ var Profile = function (_Component) {
     value: function loadPropertiesFromServer() {
       var _this2 = this;
 
-      var current_url = location.href;
       _jquery2.default.ajax({
-        url: current_url + '/properties',
+        url: this.current_url + '/properties',
         dataType: 'json'
       }).done(function (data) {
         _this2.setState({
@@ -32426,11 +32489,9 @@ var Profile = function (_Component) {
   }, {
     key: 'onSubmitSkill',
     value: function onSubmitSkill(name) {
-      var current_url = location.href;
       _jquery2.default.ajax({
-        url: current_url + '/properties',
+        url: this.current_url + '/properties',
         type: 'POST',
-        dataType: 'json',
         data: { name: name }
       });
       this.loadPropertiesFromServer();
@@ -32438,11 +32499,28 @@ var Profile = function (_Component) {
   }, {
     key: 'onDeleteProperty',
     value: function onDeleteProperty(id) {
-      var current_url = location.href;
       _jquery2.default.ajax({
-        url: current_url + '/properties/' + id,
-        type: 'DELETE',
-        dataType: 'json'
+        url: this.current_url + '/properties/' + id,
+        type: 'DELETE'
+      });
+      this.loadPropertiesFromServer();
+    }
+  }, {
+    key: 'onPlusRecommend',
+    value: function onPlusRecommend(property_id) {
+      console.log(property_id);
+      _jquery2.default.ajax({
+        url: this.current_url + '/properties/' + property_id + '/recommends',
+        type: 'POST'
+      });
+      this.loadPropertiesFromServer();
+    }
+  }, {
+    key: 'onMinusRecommend',
+    value: function onMinusRecommend(property_id) {
+      _jquery2.default.ajax({
+        url: this.current_url + '/properties/' + property_id + '/recommend',
+        type: 'DELETE'
       });
       this.loadPropertiesFromServer();
     }
@@ -32453,7 +32531,7 @@ var Profile = function (_Component) {
         'div',
         null,
         _react2.default.createElement(_form2.default, { onSubmitSkill: this.onSubmitSkill }),
-        _react2.default.createElement(_property_list2.default, { properties: this.state.properties, onDeleteProperty: this.onDeleteProperty })
+        _react2.default.createElement(_property_list2.default, { properties: this.state.properties, onDeleteProperty: this.onDeleteProperty, currentUser: this.state.currentUser, onPlusRecommend: this.onPlusRecommend, onMinusRecommend: this.onMinusRecommend })
       );
     }
   }]);
@@ -32462,6 +32540,60 @@ var Profile = function (_Component) {
 }(_react.Component);
 
 (0, _reactDom.render)(_react2.default.createElement(Profile, null), document.getElementById('app'));
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(34);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _react = __webpack_require__(25);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Recommender = function (_Component) {
+  _inherits(Recommender, _Component);
+
+  function Recommender() {
+    _classCallCheck(this, Recommender);
+
+    return _possibleConstructorReturn(this, (Recommender.__proto__ || Object.getPrototypeOf(Recommender)).call(this));
+  }
+
+  _createClass(Recommender, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.props.recommender.email
+      );
+    }
+  }]);
+
+  return Recommender;
+}(_react.Component);
+
+exports.default = Recommender;
 
 /***/ })
 /******/ ]);

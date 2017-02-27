@@ -8,7 +8,7 @@ export default class PropertyList extends Component {
 
   render() {
     const properties = this.props.properties.map((property) =>
-            <li key={property.id} ><Property property={property} onDeleteProperty={this.props.onDeleteProperty} /></li>
+            <li key={property.id} ><Property property={property} onDeleteProperty={this.props.onDeleteProperty} currentUser={this.props.currentUser} onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} /></li>
           );
     return(
       <div>
