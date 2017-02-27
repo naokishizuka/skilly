@@ -20021,6 +20021,10 @@ var _property = __webpack_require__(89);
 
 var _property2 = _interopRequireDefault(_property);
 
+var _recommenders = __webpack_require__(188);
+
+var _recommenders2 = _interopRequireDefault(_recommenders);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20043,13 +20047,23 @@ var PropertyList = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var properties = this.props.properties.map(function (property) {
-        return _react2.default.createElement(
-          'li',
-          { key: property.id },
-          _react2.default.createElement(_property2.default, { property: property, onDeleteProperty: _this2.props.onDeleteProperty, currentUser: _this2.props.currentUser, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend })
-        );
+      var properties = this.props.properties.map(function (property, index) {
+        if (index < 6) {
+          return _react2.default.createElement(
+            'li',
+            { key: property.id },
+            _react2.default.createElement(_property2.default, { property: property, onDeleteProperty: _this2.props.onDeleteProperty, currentUser: _this2.props.currentUser, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend }),
+            _react2.default.createElement(_recommenders2.default, { recommenders: property.recommenders })
+          );
+        } else {
+          return _react2.default.createElement(
+            'li',
+            { key: property.id },
+            _react2.default.createElement(_property2.default, { property: property, onDeleteProperty: _this2.props.onDeleteProperty, currentUser: _this2.props.currentUser, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend })
+          );
+        }
       });
+
       return _react2.default.createElement(
         'div',
         null,
@@ -20098,10 +20112,6 @@ var _react = __webpack_require__(25);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _recommender = __webpack_require__(187);
-
-var _recommender2 = _interopRequireDefault(_recommender);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20144,19 +20154,11 @@ var Property = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var recommenders = this.props.property.recommenders.map(function (recommender) {
-        return _react2.default.createElement(
-          'li',
-          { key: recommender.id },
-          _react2.default.createElement(_recommender2.default, { recommender: recommender })
-        );
-      });
-
       var recommendBtn = null;
       if (!this.props.currentUser) {
         recommendBtn = null;
       } else {
-        var recommender = this.props.property.recommenders.filter(function (recommender) {
+        var recommenders = this.props.property.recommenders.filter(function (recommender) {
           return recommender.id == _this2.props.currentUser.id;
         });
         if (recommenders.length == 0) {
@@ -20199,12 +20201,7 @@ var Property = function (_Component) {
           this.props.property.skill.name
         ),
         deleteBtn,
-        recommendBtn,
-        _react2.default.createElement(
-          'ul',
-          null,
-          recommenders
-        )
+        recommendBtn
       );
     }
   }]);
@@ -32547,7 +32544,8 @@ var Profile = function (_Component) {
 (0, _reactDom.render)(_react2.default.createElement(Profile, null), document.getElementById('app'));
 
 /***/ }),
-/* 187 */
+/* 187 */,
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32558,10 +32556,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _jquery = __webpack_require__(34);
-
-var _jquery2 = _interopRequireDefault(_jquery);
 
 var _react = __webpack_require__(25);
 
@@ -32575,30 +32569,40 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Recommender = function (_Component) {
-  _inherits(Recommender, _Component);
+var Recommenders = function (_Component) {
+  _inherits(Recommenders, _Component);
 
-  function Recommender() {
-    _classCallCheck(this, Recommender);
+  function Recommenders() {
+    _classCallCheck(this, Recommenders);
 
-    return _possibleConstructorReturn(this, (Recommender.__proto__ || Object.getPrototypeOf(Recommender)).call(this));
+    return _possibleConstructorReturn(this, (Recommenders.__proto__ || Object.getPrototypeOf(Recommenders)).call(this));
   }
 
-  _createClass(Recommender, [{
+  _createClass(Recommenders, [{
     key: 'render',
     value: function render() {
+      var recommenders = this.props.recommenders.map(function (recommender, index) {
+        if (index < 10) {
+          return _react2.default.createElement(
+            'li',
+            { key: index },
+            recommender.email
+          );
+        }
+      });
+
       return _react2.default.createElement(
-        'div',
+        'ul',
         null,
-        this.props.recommender.email
+        recommenders
       );
     }
   }]);
 
-  return Recommender;
+  return Recommenders;
 }(_react.Component);
 
-exports.default = Recommender;
+exports.default = Recommenders;
 
 /***/ })
 /******/ ]);

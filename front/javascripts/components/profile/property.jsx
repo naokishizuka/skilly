@@ -1,6 +1,5 @@
 import $ from'jquery'
 import React, { Component } from 'react';
-import Recommender from './recommender.jsx'
 
 export default class Property extends Component {
   constructor() {
@@ -23,14 +22,12 @@ export default class Property extends Component {
   }
 
   render() {
-    const recommenders = this.props.property.recommenders.map((recommender) =>
-            <li key={recommender.id} ><Recommender recommender={recommender} /></li>)
 
     let recommendBtn = null;
     if (!this.props.currentUser) {
       recommendBtn = null
     } else {
-      const recommender = this.props.property.recommenders.filter((recommender) => { return recommender.id == this.props.currentUser.id; })
+      const recommenders = this.props.property.recommenders.filter((recommender) => { return recommender.id == this.props.currentUser.id; })
       if (recommenders.length == 0) {
         recommendBtn = <span onClick={this.handlePlus}>+1</span>
       } else {
@@ -51,7 +48,6 @@ export default class Property extends Component {
         <span>{this.props.property.skill.name}</span>
         {deleteBtn}
         {recommendBtn}
-        <ul>{recommenders}</ul>
       </div>
     );
   }
