@@ -47,6 +47,7 @@ export default class Property extends Component {
 
     return (
       <div>
+        <span>{this.props.property.recommends_count}</span>
         <span>{this.props.property.skill.name}</span>
         {deleteBtn}
         {recommendBtn}

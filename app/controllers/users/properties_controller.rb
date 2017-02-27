@@ -2,7 +2,7 @@ class Users::PropertiesController < ApplicationController
   before_action :set_user
 
   def index
-    @properties = @user.properties
+    @properties = @user.properties.order(recommends_count: :desc)
     respond_to do |format|
       format.html
       format.json { render json: @properties.to_json(include: [:skill, :user, :recommenders]) }

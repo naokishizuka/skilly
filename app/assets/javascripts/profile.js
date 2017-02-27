@@ -20191,6 +20191,11 @@ var Property = function (_Component) {
         _react2.default.createElement(
           'span',
           null,
+          this.props.property.recommends_count
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
           this.props.property.skill.name
         ),
         deleteBtn,
