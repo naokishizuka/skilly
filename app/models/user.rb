@@ -6,4 +6,6 @@ class User < ActiveRecord::Base
   has_many :properties
   has_many :skills, through: :properties
   has_many :recommends
+
+  validates :name, presence: true
 end

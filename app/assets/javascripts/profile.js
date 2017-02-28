@@ -20937,7 +20937,7 @@ var Form = function (_Component) {
         'form',
         { onSubmit: this.handleSubmit },
         _react2.default.createElement(_reactTypeaheadComponent2.default, {
-          placeholder: '\u30E6\u30FC\u30B6\u691C\u7D22',
+          placeholder: '\u30B9\u30AD\u30EB\u540D\u5165\u529B\uFF08Enter\u3067\u78BA\u5B9A\uFF09',
           inputValue: this.state.inputValue,
           options: this.state.options,
           onChange: this.handleChange,
@@ -21211,7 +21211,7 @@ var Recommenders = function (_Component) {
           return _react2.default.createElement(
             'li',
             { key: index },
-            recommender.email
+            recommender.name
           );
         }
       });

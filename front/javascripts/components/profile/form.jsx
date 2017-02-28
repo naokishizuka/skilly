@@ -60,7 +60,7 @@ export default class Form extends Component {
     return(
       <form onSubmit={this.handleSubmit}>
         <Typeahead
-          placeholder="ユーザ検索"
+          placeholder="スキル名入力（Enterで確定）"
           inputValue={this.state.inputValue}
           options={this.state.options}
           onChange={this.handleChange}

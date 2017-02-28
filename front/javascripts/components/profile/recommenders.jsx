@@ -8,7 +8,7 @@ export default class Recommenders extends Component {
   render() {
     const recommenders = this.props.recommenders.map((recommender, index) => {
       if (index < 10) {
-        return <li key={index}>{recommender.email}</li>
+        return <li key={index}>{recommender.name}</li>
       }
     });
 
