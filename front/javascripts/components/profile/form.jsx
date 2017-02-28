@@ -1,12 +1,19 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
+import Typeahead from 'react-typeahead-component';
+import OptionTemplate from './option_template.jsx'
 
 export default class Form extends Component {
   constructor() {
     super();
-    this.state = { inputValue: '' };
+    this.state = { inputValue: '', options: [] };
     this.handleChange = this.handleChange.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getOptions = this.getOptions.bind(this);
+    this.handleOptionChange = this.handleOptionChange.bind(this);
+    this.handleOptionClick = this.handleOptionClick.bind(this);
+    this.current_url = location.href;
   }
 
   clear() {
@@ -14,7 +21,12 @@ export default class Form extends Component {
   }
 
   handleChange(e) {
-    this.setState({ inputValue: e.target.value })
+    let value = e.target.value;
+    this.setState({ inputValue: value })
+  }
+
+  handleKeyUp(e) {
+    this.getOptions(e.target.value);
   }
 
   handleSubmit(e) {
@@ -23,11 +35,41 @@ export default class Form extends Component {
     this.clear();
   }
 
+  handleOptionChange(e, option) {
+    this.setState({inputValue: option})
+  }
+
+  handleOptionClick(e, option) {
+    this.setState({inputValue: option});
+  }
+
+  getOptions(value) {
+    $.ajax({
+      url: `${this.current_url}/skills/search`,
+      dataType: 'json',
+      data: {keyword: value }
+    })
+    .done((data) => {
+      this.setState({
+        options: data
+      });
+    })
+  }
+
   render() {
     return(
       <form onSubmit={this.handleSubmit}>
-        <input type='text' value={this.state.inputValue} onChange={this.handleChange} />
-        <input type='submit' onSubmit={this.handleSubmit} />
+        <Typeahead
+          placeholder="ユーザ検索"
+          inputValue={this.state.inputValue}
+          options={this.state.options}
+          onChange={this.handleChange}
+          onKeyUp={this.handleKeyUp}
+          optionTemplate={OptionTemplate}
+          onOptionChange={this.handleOptionChange}
+          onOptionClick={this.handleOptionClick}
+        />
+        <input type='submit' onSubmit={this.handleSubmit} className='hidden' />
       </form>
     );
   }
