@@ -7,6 +7,7 @@ import PropertyList from './components/profile/property_list.jsx';
 class Profile extends Component {
   constructor() {
     super();
+    this.current_url = location.href;
 
     $.ajax({
       async: false,
@@ -14,11 +15,23 @@ class Profile extends Component {
       dataType: 'json'
     })
     .done((data) => {
-      this.state = {
-        properties: [],
-        currentUser: data
-      }
+      this.currentUser = data
     })
+
+    $.ajax({
+      async: false,
+      url: this.current_url,
+      dataType: 'json'
+    })
+    .done((data) => {
+      this.user = data
+    })
+
+    this.state = {
+      currentUser: this.currentUser,
+      user: this.user,
+      properties: []
+    }
 
     this.current_url = location.href;
     this.onSubmitSkill = this.onSubmitSkill.bind(this);
@@ -79,8 +92,9 @@ class Profile extends Component {
   render() {
     return(
       <div>
+        <h1>{this.state.user.name}さんのスキル</h1>
         <Form onSubmitSkill={this.onSubmitSkill} />
-        <PropertyList properties={this.state.properties} onDeleteProperty={this.onDeleteProperty} currentUser={this.state.currentUser} onPlusRecommend={this.onPlusRecommend} onMinusRecommend={this.onMinusRecommend} />
+        <PropertyList properties={this.state.properties} currentUser={this.state.currentUser}　user={this.state.user} onDeleteProperty={this.onDeleteProperty}  onPlusRecommend={this.onPlusRecommend} onMinusRecommend={this.onMinusRecommend} />
       </div>
     )
   }

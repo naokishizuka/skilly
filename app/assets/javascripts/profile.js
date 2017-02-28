@@ -21008,14 +21008,14 @@ var PropertyList = function (_Component) {
           return _react2.default.createElement(
             'li',
             { key: property.id },
-            _react2.default.createElement(_property2.default, { property: property, onDeleteProperty: _this2.props.onDeleteProperty, currentUser: _this2.props.currentUser, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend }),
+            _react2.default.createElement(_property2.default, { property: property, currentUser: _this2.props.currentUser, user: _this2.props.user, onDeleteProperty: _this2.props.onDeleteProperty, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend }),
             _react2.default.createElement(_recommenders2.default, { recommenders: property.recommenders })
           );
         } else {
           return _react2.default.createElement(
             'li',
             { key: property.id },
-            _react2.default.createElement(_property2.default, { property: property, onDeleteProperty: _this2.props.onDeleteProperty, currentUser: _this2.props.currentUser, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend })
+            _react2.default.createElement(_property2.default, { property: property, currentUser: _this2.props.currentUser, user: _this2.props.user, onDeleteProperty: _this2.props.onDeleteProperty, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend })
           );
         }
       });
@@ -21111,9 +21111,7 @@ var Property = function (_Component) {
       var _this2 = this;
 
       var recommendBtn = null;
-      if (!this.props.currentUser) {
-        recommendBtn = null;
-      } else {
+      if (this.props.user.id != this.props.currentUser.id) {
         var recommenders = this.props.property.recommenders.filter(function (recommender) {
           return recommender.id == _this2.props.currentUser.id;
         });
@@ -31014,16 +31012,29 @@ var Profile = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this));
 
+    _this.current_url = location.href;
+
     _jquery2.default.ajax({
       async: false,
       url: '/current_user',
       dataType: 'json'
     }).done(function (data) {
-      _this.state = {
-        properties: [],
-        currentUser: data
-      };
+      _this.currentUser = data;
     });
+
+    _jquery2.default.ajax({
+      async: false,
+      url: _this.current_url,
+      dataType: 'json'
+    }).done(function (data) {
+      _this.user = data;
+    });
+
+    _this.state = {
+      currentUser: _this.currentUser,
+      user: _this.user,
+      properties: []
+    };
 
     _this.current_url = location.href;
     _this.onSubmitSkill = _this.onSubmitSkill.bind(_this);
@@ -31095,8 +31106,14 @@ var Profile = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          this.state.user.name,
+          '\u3055\u3093\u306E\u30B9\u30AD\u30EB'
+        ),
         _react2.default.createElement(_form2.default, { onSubmitSkill: this.onSubmitSkill }),
-        _react2.default.createElement(_property_list2.default, { properties: this.state.properties, onDeleteProperty: this.onDeleteProperty, currentUser: this.state.currentUser, onPlusRecommend: this.onPlusRecommend, onMinusRecommend: this.onMinusRecommend })
+        _react2.default.createElement(_property_list2.default, { properties: this.state.properties, currentUser: this.state.currentUser, user: this.state.user, onDeleteProperty: this.onDeleteProperty, onPlusRecommend: this.onPlusRecommend, onMinusRecommend: this.onMinusRecommend })
       );
     }
   }]);

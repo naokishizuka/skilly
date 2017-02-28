@@ -24,9 +24,7 @@ export default class Property extends Component {
   render() {
 
     let recommendBtn = null;
-    if (!this.props.currentUser) {
-      recommendBtn = null
-    } else {
+    if (this.props.user.id != this.props.currentUser.id){
       const recommenders = this.props.property.recommenders.filter((recommender) => { return recommender.id == this.props.currentUser.id; })
       if (recommenders.length == 0) {
         recommendBtn = <span onClick={this.handlePlus}>+1</span>
@@ -34,6 +32,7 @@ export default class Property extends Component {
         recommendBtn = <span onClick={this.handleMinus}>-1</span>
       }
     }
+
 
     let deleteBtn = null;
     if (!this.props.currentUser) {

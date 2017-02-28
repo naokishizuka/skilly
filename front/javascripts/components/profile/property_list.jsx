@@ -11,12 +11,12 @@ export default class PropertyList extends Component {
     const properties = this.props.properties.map((property, index) => {
       if (index < 6) {
         return <li key={property.id} >
-                 <Property property={property} onDeleteProperty={this.props.onDeleteProperty} currentUser={this.props.currentUser} onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
+                 <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty}  onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
                  <Recommenders recommenders={property.recommenders} />
               </li>
       } else {
         return <li key={property.id} >
-                 <Property property={property} onDeleteProperty={this.props.onDeleteProperty} currentUser={this.props.currentUser} onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
+                 <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty} onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
                </li>
       }
     });
