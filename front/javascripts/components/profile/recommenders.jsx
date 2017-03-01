@@ -8,14 +8,15 @@ export default class Recommenders extends Component {
   render() {
     const recommenders = this.props.recommenders.map((recommender, index) => {
       if (index < 10) {
-        return <li key={index}>{recommender.name}</li>
+        const url = `/users/${recommender.id}`
+        return <a key={index} href={url}><img className='profile-image' width='34px' height='34px' /></a>
       }
     });
 
     return (
-      <ul>
+      <span>
         {recommenders}
-      </ul>
+      </span>
     );
   }
 }

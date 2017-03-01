@@ -20934,19 +20934,23 @@ var Form = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'form',
-        { onSubmit: this.handleSubmit },
-        _react2.default.createElement(_reactTypeaheadComponent2.default, {
-          placeholder: '\u30B9\u30AD\u30EB\u540D\u5165\u529B\uFF08Enter\u3067\u78BA\u5B9A\uFF09',
-          inputValue: this.state.inputValue,
-          options: this.state.options,
-          onChange: this.handleChange,
-          onKeyUp: this.handleKeyUp,
-          optionTemplate: _option_template2.default,
-          onOptionChange: this.handleOptionChange,
-          onOptionClick: this.handleOptionClick
-        }),
-        _react2.default.createElement('input', { type: 'submit', onSubmit: this.handleSubmit, className: 'hidden' })
+        'div',
+        null,
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.handleSubmit },
+          _react2.default.createElement(_reactTypeaheadComponent2.default, {
+            placeholder: '\u30B9\u30AD\u30EB\u540D\u5165\u529B\uFF08Enter\u3067\u78BA\u5B9A\uFF09',
+            inputValue: this.state.inputValue,
+            options: this.state.options,
+            onChange: this.handleChange,
+            onKeyUp: this.handleKeyUp,
+            optionTemplate: _option_template2.default,
+            onOptionChange: this.handleOptionChange,
+            onOptionClick: this.handleOptionClick
+          }),
+          _react2.default.createElement('input', { type: 'submit', onSubmit: this.handleSubmit, className: 'hidden' })
+        )
       );
     }
   }]);
@@ -21007,14 +21011,18 @@ var PropertyList = function (_Component) {
         if (index < 6) {
           return _react2.default.createElement(
             'li',
-            { key: property.id },
+            { className: 'skill', key: property.id },
             _react2.default.createElement(_property2.default, { property: property, currentUser: _this2.props.currentUser, user: _this2.props.user, onDeleteProperty: _this2.props.onDeleteProperty, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend }),
-            _react2.default.createElement(_recommenders2.default, { recommenders: property.recommenders })
+            _react2.default.createElement(
+              'p',
+              { className: 'skill-recommenders' },
+              _react2.default.createElement(_recommenders2.default, { recommenders: property.recommenders })
+            )
           );
         } else {
           return _react2.default.createElement(
             'li',
-            { key: property.id },
+            { className: 'skill', key: property.id },
             _react2.default.createElement(_property2.default, { property: property, currentUser: _this2.props.currentUser, user: _this2.props.user, onDeleteProperty: _this2.props.onDeleteProperty, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend })
           );
         }
@@ -21025,7 +21033,7 @@ var PropertyList = function (_Component) {
         null,
         _react2.default.createElement(
           'ul',
-          null,
+          { className: 'skills' },
           properties
         )
       );
@@ -21117,15 +21125,15 @@ var Property = function (_Component) {
         });
         if (recommenders.length == 0) {
           recommendBtn = _react2.default.createElement(
-            'span',
-            { onClick: this.handlePlus },
-            '+1'
+            'div',
+            { className: 'recommend', onClick: this.handlePlus },
+            '+'
           );
         } else {
           recommendBtn = _react2.default.createElement(
-            'span',
-            { onClick: this.handleMinus },
-            '-1'
+            'div',
+            { className: 'recommend', onClick: this.handleMinus },
+            '-'
           );
         }
       }
@@ -21135,29 +21143,33 @@ var Property = function (_Component) {
         deleteBtn = null;
       } else if (this.props.property.user.id == this.props.currentUser.id) {
         deleteBtn = _react2.default.createElement(
-          'span',
-          { onClick: this.handleDelete },
-          '\u524A\u9664'
+          'div',
+          { className: 'recommend', onClick: this.handleDelete },
+          '\xD7'
         );
       }
 
       var skill_url = '/skills/' + this.props.property.skill_id;
 
       return _react2.default.createElement(
-        'div',
-        null,
+        'h3',
+        { className: 'skill-title' },
         _react2.default.createElement(
-          'span',
-          null,
-          this.props.property.recommends_count
+          'div',
+          { className: 'skill-button' },
+          _react2.default.createElement(
+            'div',
+            { className: 'count' },
+            this.props.property.recommends_count
+          ),
+          recommendBtn,
+          deleteBtn
         ),
         _react2.default.createElement(
           'a',
           { href: skill_url },
           this.props.property.skill.name
-        ),
-        deleteBtn,
-        recommendBtn
+        )
       );
     }
   }]);
@@ -21206,16 +21218,17 @@ var Recommenders = function (_Component) {
     value: function render() {
       var recommenders = this.props.recommenders.map(function (recommender, index) {
         if (index < 10) {
+          var url = '/users/' + recommender.id;
           return _react2.default.createElement(
-            'li',
-            { key: index },
-            recommender.name
+            'a',
+            { key: index, href: url },
+            _react2.default.createElement('img', { className: 'profile-image', width: '34px', height: '34px' })
           );
         }
       });
 
       return _react2.default.createElement(
-        'ul',
+        'span',
         null,
         recommenders
       );
@@ -31105,15 +31118,23 @@ var Profile = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { id: 'profile' },
         _react2.default.createElement(
-          'h1',
-          null,
-          this.state.user.name,
-          '\u3055\u3093\u306E\u30B9\u30AD\u30EB'
-        ),
-        _react2.default.createElement(_form2.default, { onSubmitSkill: this.onSubmitSkill }),
-        _react2.default.createElement(_property_list2.default, { properties: this.state.properties, currentUser: this.state.currentUser, user: this.state.user, onDeleteProperty: this.onDeleteProperty, onPlusRecommend: this.onPlusRecommend, onMinusRecommend: this.onMinusRecommend })
+          'div',
+          { className: 'container' },
+          _react2.default.createElement(
+            'h1',
+            { className: 'header' },
+            this.state.user.name
+          ),
+          _react2.default.createElement(
+            'h2',
+            { className: 'item' },
+            '\u30B9\u30AD\u30EB\u30FB\u7279\u5FB4'
+          ),
+          _react2.default.createElement(_form2.default, { onSubmitSkill: this.onSubmitSkill }),
+          _react2.default.createElement(_property_list2.default, { properties: this.state.properties, currentUser: this.state.currentUser, user: this.state.user, onDeleteProperty: this.onDeleteProperty, onPlusRecommend: this.onPlusRecommend, onMinusRecommend: this.onMinusRecommend })
+        )
       );
     }
   }]);

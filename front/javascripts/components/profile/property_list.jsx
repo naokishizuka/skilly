@@ -10,12 +10,14 @@ export default class PropertyList extends Component {
   render() {
     const properties = this.props.properties.map((property, index) => {
       if (index < 6) {
-        return <li key={property.id} >
-                 <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty}  onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
-                 <Recommenders recommenders={property.recommenders} />
+        return <li className='skill' key={property.id} >
+                  <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty}  onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
+                 <p className='skill-recommenders'>
+                   <Recommenders recommenders={property.recommenders} />
+                 </p>
               </li>
       } else {
-        return <li key={property.id} >
+        return <li className='skill' key={property.id} >
                  <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty} onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
                </li>
       }
@@ -23,7 +25,7 @@ export default class PropertyList extends Component {
 
     return(
       <div>
-        <ul>{properties}</ul>
+        <ul className='skills'>{properties}</ul>
       </div>
     );
   }

@@ -91,10 +91,13 @@ class Profile extends Component {
 
   render() {
     return(
-      <div>
-        <h1>{this.state.user.name}さんのスキル</h1>
-        <Form onSubmitSkill={this.onSubmitSkill} />
-        <PropertyList properties={this.state.properties} currentUser={this.state.currentUser}　user={this.state.user} onDeleteProperty={this.onDeleteProperty}  onPlusRecommend={this.onPlusRecommend} onMinusRecommend={this.onMinusRecommend} />
+      <div id='profile'>
+        <div className='container'>
+          <h1 className='header'>{this.state.user.name}</h1>
+          <h2 className='item'>スキル・特徴</h2>
+          <Form onSubmitSkill={this.onSubmitSkill} />
+          <PropertyList properties={this.state.properties} currentUser={this.state.currentUser} user={this.state.user} onDeleteProperty={this.onDeleteProperty}  onPlusRecommend={this.onPlusRecommend} onMinusRecommend={this.onMinusRecommend} />
+        </div>
       </div>
     )
   }

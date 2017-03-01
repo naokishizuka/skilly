@@ -58,19 +58,21 @@ export default class Form extends Component {
 
   render() {
     return(
-      <form onSubmit={this.handleSubmit}>
-        <Typeahead
-          placeholder="スキル名入力（Enterで確定）"
-          inputValue={this.state.inputValue}
-          options={this.state.options}
-          onChange={this.handleChange}
-          onKeyUp={this.handleKeyUp}
-          optionTemplate={OptionTemplate}
-          onOptionChange={this.handleOptionChange}
-          onOptionClick={this.handleOptionClick}
-        />
-        <input type='submit' onSubmit={this.handleSubmit} className='hidden' />
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <Typeahead
+            placeholder="スキル名入力（Enterで確定）"
+            inputValue={this.state.inputValue}
+            options={this.state.options}
+            onChange={this.handleChange}
+            onKeyUp={this.handleKeyUp}
+            optionTemplate={OptionTemplate}
+            onOptionChange={this.handleOptionChange}
+            onOptionClick={this.handleOptionClick}
+          />
+          <input type='submit' onSubmit={this.handleSubmit} className='hidden' />
+        </form>
+      </div>
     );
   }
 }
