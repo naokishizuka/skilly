@@ -11,11 +11,11 @@ export default class PropertyList extends Component {
     const properties = this.props.properties.map((property, index) => {
       if (index < 6) {
         return <li className='skill' key={property.id} >
-                  <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty}  onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
                  <p className='skill-recommenders'>
                    <Recommenders recommenders={property.recommenders} />
                  </p>
-              </li>
+                 <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty}  onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />
+               </li>
       } else {
         return <li className='skill' key={property.id} >
                  <Property property={property} currentUser={this.props.currentUser} user={this.props.user} onDeleteProperty={this.props.onDeleteProperty} onPlusRecommend={this.props.onPlusRecommend} onMinusRecommend={this.props.onMinusRecommend} />

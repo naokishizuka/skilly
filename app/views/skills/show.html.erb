@@ -1,4 +1,20 @@
-<%= @skill.name %>
-<% @skill.users.each do |user| %>
-  <%= link_to user.email, user_path(user) %>
-<% end %>
+<div id='skill' %>
+  <div class='container'>
+    <h1 class='header'><%= @skill.name %></h1>
+    <h2 class='item'>スキルを登録している人</h2>
+    <div class="row">
+      <% @properties.each do |property| %>
+        <%= link_to user_path(property.user) do %>
+          <div class='col-xs-6 col-md-4'>
+            <div class='panel panel-default card'>
+              <div class='panel-body'>
+                <span class='name'><%= property.user.name %></span>
+                <span class='pull-right badge badge-pill badge-wantedly'><%= property.recommends_count %></span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

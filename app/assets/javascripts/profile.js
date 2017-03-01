@@ -21012,12 +21012,12 @@ var PropertyList = function (_Component) {
           return _react2.default.createElement(
             'li',
             { className: 'skill', key: property.id },
-            _react2.default.createElement(_property2.default, { property: property, currentUser: _this2.props.currentUser, user: _this2.props.user, onDeleteProperty: _this2.props.onDeleteProperty, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend }),
             _react2.default.createElement(
               'p',
               { className: 'skill-recommenders' },
               _react2.default.createElement(_recommenders2.default, { recommenders: property.recommenders })
-            )
+            ),
+            _react2.default.createElement(_property2.default, { property: property, currentUser: _this2.props.currentUser, user: _this2.props.user, onDeleteProperty: _this2.props.onDeleteProperty, onPlusRecommend: _this2.props.onPlusRecommend, onMinusRecommend: _this2.props.onMinusRecommend })
           );
         } else {
           return _react2.default.createElement(
