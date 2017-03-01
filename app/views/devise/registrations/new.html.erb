@@ -12,6 +12,7 @@
                 <%= f.password_field :password_confirmation, placeholder: 'password confirmation', class: 'form-control', required: true %>
                 <%= f.submit 'Sign Up', class: 'btn btn-lg btn-wantedly btn-block' %>
                 <% end %>
+                <%= link_to 'Log in', new_user_session_path, class: 'text-center new-account' %>
             </div>
         </div>
     </div>

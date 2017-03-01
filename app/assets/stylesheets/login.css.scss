@@ -27,12 +27,6 @@
     z-index: 2;
 }
 
-.form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
 .form-signin input[type='submit'] {
     margin-top: 20px;
 }
@@ -69,6 +63,7 @@
 
 .new-account {
     display: block;
+    color: #45494B;
     margin-top: 10px;
 }
 
