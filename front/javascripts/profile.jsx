@@ -1,4 +1,6 @@
 import $ from 'jquery';
+$.ajaxSetup({ cache: false });
+
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Form from './components/profile/form.jsx';
