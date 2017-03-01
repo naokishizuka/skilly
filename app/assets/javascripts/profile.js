@@ -31118,6 +31118,15 @@ var Profile = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var guidance = null;
+      if (this.state.user.id == this.state.currentUser.id) {
+        guidance = _react2.default.createElement(
+          'div',
+          { className: 'label guidance' },
+          '\u30DE\u30A4\u30DA\u30FC\u30B8'
+        );
+      }
+
       return _react2.default.createElement(
         'div',
         { id: 'profile' },
@@ -31127,7 +31136,8 @@ var Profile = function (_Component) {
           _react2.default.createElement(
             'h1',
             { className: 'header' },
-            this.state.user.name
+            this.state.user.name,
+            guidance
           ),
           _react2.default.createElement(
             'h2',

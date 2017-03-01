@@ -92,10 +92,15 @@ class Profile extends Component {
   }
 
   render() {
+    let guidance = null;
+    if (this.state.user.id == this.state.currentUser.id) {
+      guidance = <div className='label guidance'>マイページ</div>
+    }
+
     return(
       <div id='profile'>
         <div className='container'>
-          <h1 className='header'>{this.state.user.name}</h1>
+          <h1 className='header'>{this.state.user.name}{guidance}</h1>
           <h2 className='item'>スキル・特徴</h2>
           <Form onSubmitSkill={this.onSubmitSkill} />
           <PropertyList properties={this.state.properties} currentUser={this.state.currentUser} user={this.state.user} onDeleteProperty={this.onDeleteProperty}  onPlusRecommend={this.onPlusRecommend} onMinusRecommend={this.onMinusRecommend} />
