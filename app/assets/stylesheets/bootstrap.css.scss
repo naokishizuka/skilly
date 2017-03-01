@@ -1,0 +1,7 @@
+.btn-wantedly{
+    background-color: #00a4bb;
+    color: #fff;
+    &:hover{
+      background-color: darken(#00a4bb, 3%);
+  }
+}
